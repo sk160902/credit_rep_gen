@@ -1,0 +1,839 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{multirow}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{tabularray}
+\usepackage{float}
+\usepackage[export]{adjustbox}
+\usepackage{longtable}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{textcomp}
+
+
+\geometry{a4paper, margin=0.6in} % Adjust margins if necessary
+\begin{document}
+\title{\textbf{\underline{Credit Appraisal Note}}}
+\date{}
+
+\maketitle
+
+\section*{\underline{Company Profile}}
+
+\begin{longtable}{|m{3cm}|p{14cm}|} % Adjusted column widths
+    \hline
+    \multirow{8}{*}{\parbox{3cm}{\centering \textbf{Introduction}}} &
+    \begin{itemize}
+    \renewcommand\labelitemi{--}
+        {% for item in company_profile.introduction %}
+        \item {{ item|escape_latex }}
+        {% endfor %}
+    \end{itemize} \\
+    \hline
+    \multirow{6}{*}{\parbox{3cm}{\centering \textbf{Core Products and Services}}} &
+    \begin{itemize}
+    \renewcommand\labelitemi{--}
+        {% for item in company_profile.core_products_services %}
+        \item {{ item|escape_latex }}
+        {% endfor %}
+    \end{itemize} \\
+    \hline
+    \multirow{8}{*}{\parbox{3cm}{\centering \textbf{Primary Revenue}}} &
+    \begin{itemize}
+    \renewcommand\labelitemi{--}
+        {% for item in company_profile.primary_revenue %}
+        \item {{ item|escape_latex }}
+        {% endfor %}
+    \end{itemize} \\
+    \hline
+    \multirow{8}{*}{\parbox{3cm}{\centering \textbf{Manufacturing Facilities}}} &
+    \begin{itemize}
+    \renewcommand\labelitemi{--}
+        {% for item in company_profile.manufactering_facilities %}
+        \item {{ item|escape_latex }}
+        {% endfor %}
+    \end{itemize} \\
+    \hline
+    \multirow{2}{*}{\parbox{3cm}{\centering \textbf{Corporate Offices}}} &
+    \begin{itemize}
+    \renewcommand\labelitemi{--}
+        {% for item in company_profile.corporate_offices %}
+        \item {{ item|escape_latex }}
+        {% endfor %}
+    \end{itemize} \\
+    \hline
+    \multirow{5}{*}{\parbox{3cm}{\centering \textbf{Research and Development}}} &
+    \begin{itemize}
+    \renewcommand\labelitemi{--}
+        {% for item in company_profile.research_dev %}
+        \item {{ item|escape_latex }}
+        {% endfor %}
+    \end{itemize} \\
+    \hline
+\end{longtable}
+
+\section*{\underline{PROMOTER BACKGROUND}}
+
+\begin{longtable}{|m{3cm}|p{14cm}|} % Adjusted column widths
+    \hline
+    \multirow{3}{*}{\parbox{3cm}{\centering \vspace*{\fill} \textbf{Key Executives} \vspace*{\fill}}} &
+    \begin{itemize}
+    \renewcommand\labelitemi{--}
+        {% for i in range(promoters_dict.names|length) %}
+        \item {{ promoters_dict.names[i] }}: {{ promoters_dict.experiences[i] }}
+        {% endfor %}
+    \end{itemize} \\
+    \hline
+\end{longtable}
+
+\section*{Key Issues}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for header, content in key_issues %}
+    \item \textbf{\large {{ header }}}: {{ content }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+\section*{Key Strengths}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for header, content in key_strengths %}
+    \item \textbf{\large {{ header }}}: {{ content }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+\section*{INDUSTRY RISK}
+
+\begin{tcolorbox}[colback=white]
+\raggedright
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for source, risk in industry_risks %}
+    \item \textbf{\href{{ '{' ~ source ~ '}' }}{{ '{' ~ risk.split(":")[0] ~ '}' }}}:{{ '{' ~ risk.split(":", 1)[1] ~ '}' }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+
+\section*{\underline{BRIEF FINANCIALS}}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+        \hline
+        \rowcolor{blue!20}
+        \textbf{All figures in INR Cr.} & {% for year in company_financials_dict.years %} {{ year }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Sales} & {% for value in company_financials_dict.sales %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{EBIDTA} & {% for value in company_financials_dict.expenses %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{PAT} & {% for value in company_financials_dict.operating_profits %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Total Equity Capital} & {% for value in company_financials_dict.otherIncomes %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Non-current liabilities} & {% for value in company_financials_dict.interestExpenses %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Non-current assets} & {% for value in company_financials_dict.depreciationCosts %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Current assets} & {% for value in company_financials_dict.profitsbeforetax %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{RoE (in \%)} & {% for value in company_financials_dict.tax_rate_percentages %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Current Ratio} & {% for value in company_financials_dict.netprofits %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+
+\section*{Financial Data}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} % Increases the space between rows
+    \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+        \hline
+        \rowcolor{blue!20}
+        \textbf{Metrics} {% for year in financial_dict.years %} & {{ year }} {% endfor %} \\
+        \hline
+        \textbf{Sales} {% for value in financial_dict.value_sales %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Expenses} {% for value in financial_dict.value_expenses %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Operating Profit} {% for value in financial_dict.OperatingProfit %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{OPM (\%)} {% for value in financial_dict.OPM %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Other Income} {% for value in financial_dict.OtherIncome %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Interest} {% for value in financial_dict.Interest %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Depreciation} {% for value in financial_dict.Depreciation %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Profit Before Tax} {% for value in financial_dict.ProfitBeforeTax %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Tax (\%)} {% for value in financial_dict.TaxPercentage %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{Net Profit} {% for value in financial_dict.NetProfit %} & {{ value }} {% endfor %} \\
+        \hline
+        \textbf{EPS} {% for value in financial_dict.EPS %} & {{ value }} {% endfor %} \\
+        \hline
+    \end{tabularx}
+\end{table}
+\section*{Commentary on Financial Data}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for comment in financial_commentary %}
+    \item {{ comment}}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+\section*{Peer Ratings}
+
+\renewcommand{\arraystretch}{1.5} % Increases the row height
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{4cm}|}
+\hline
+\textbf{Company Name} & \textbf{Long Term Rating} & \textbf{Short Term Rating} \\ \hline
+{% for item in peer_ratings %}
+{{ item.company_name }} & {{ item.long_term_rating }} & {{ item.short_term_rating }} \\ \hline
+{% endfor %}
+\end{tabular}
+
+
+
+
+\section*{Commentary on Peer Ratings}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize} % Ensure this is correctly opened
+    \renewcommand\labelitemi{--}
+    {% for comment in peer_commentary %}
+    \item {{ comment }}
+    {% endfor %}
+\end{itemize} % Ensure this is correctly closed
+\end{tcolorbox}
+
+
+\section*{Balance Sheet Analysis}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+        \hline
+        \rowcolor{blue!20}
+        \textbf{Metrics} & {% for year in balance_sheet_dict.years %} {{ year }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Equity Capital} & {% for value in balance_sheet_dict.EquityCapital %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Reserves} & {% for value in balance_sheet_dict.Reserves %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Borrowings} & {% for value in balance_sheet_dict.Borrowings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Liabilities} & {% for value in balance_sheet_dict.OtherLiabilities %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Total Liabilities} & {% for value in balance_sheet_dict.TotalLiabilities %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Fixed Assets} & {% for value in balance_sheet_dict.FixedAssets %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{CWIP} & {% for value in balance_sheet_dict.CWIP %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Investments} & {% for value in balance_sheet_dict.Investments %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Assets} & {% for value in balance_sheet_dict.OtherAssets %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Inventories} & {% for value in balance_sheet_dict.Inventories %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Trade Receivables} & {% for value in balance_sheet_dict.TradeReceivables %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Cash Equivalents} & {% for value in balance_sheet_dict.CashEquivalents %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Short Term Loans} & {% for value in balance_sheet_dict.ShortTermLoans %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Asset Items} & {% for value in balance_sheet_dict.OtherAssetItems %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Total Assets} & {% for value in balance_sheet_dict.TotalAssets %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\section*{Commentary on Balance Sheet Analysis}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize} % Opening the itemize environment
+    \renewcommand\labelitemi{--}
+    {% for comment in balance_sheet_commentary %}
+    \item {{ comment }} % Ensure that this variable does produce valid LaTeX
+    {% endfor %}
+\end{itemize} % Closing the itemize environment
+\end{tcolorbox}
+
+
+\section*{Leverage Ratio}
+
+\begin{figure}[H]
+    \centering
+    {% for name, url in leverage_ratio_graphs %}
+    \subfloat[{{ name|escape_latex }}]{\includegraphics[width=0.45\textwidth]{{ url|escape_latex }}}
+    {% endfor %}
+\end{figure}
+
+\section*{Commentary on Leverage Ratio}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize} % Ensuring the itemize environment is properly opened
+    \renewcommand\labelitemi{--}
+    {% for comment in leverage_ratio_commentary %}
+    \item {{ comment }} % Each item in the list
+    {% endfor %}
+\end{itemize} % Properly close the itemize environment
+\end{tcolorbox}
+
+
+
+\section*{Performance Ratios}
+
+\begin{figure}[H]
+    \centering
+    {% for name, url in performance_ratio_graphs %}
+    \subfloat[{{ name|escape_latex }}]{\includegraphics[width=0.45\textwidth]{{ url|escape_latex }}}
+    {% endfor %}
+\end{figure}
+
+\section*{Commentary on Performance Ratios}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}  % Ensure the itemize environment is properly opened
+    \renewcommand\labelitemi{--}
+    {% for comment in performance_ratio_commentary %}
+    \item {{ comment }}  % Each item is correctly placed in the itemize environment
+    {% endfor %}
+\end{itemize}  % Close the itemize environment properly
+\end{tcolorbox}
+
+
+
+\section*{Activity Ratios}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[Current Ratio]{\includegraphics[width=0.45\textwidth]{current_ratio.png}}
+    \subfloat[Quick Ratio]{\includegraphics[width=0.45\textwidth]{quick_ratio.png}}
+    
+    \subfloat[Inventory Turnover]{\includegraphics[width=0.45\textwidth]{inventory_turnover.png}}
+    \subfloat[Cash Cycle Days]{\includegraphics[width=0.45\textwidth]{cash_cycle.png}}
+\end{figure}
+
+\begin{tcolorbox}[colback=white, breakable, boxrule=0.5pt, arc=4mm, left=6mm, right=6mm, top=6mm, bottom=6mm, boxsep=2mm, enlarge top by=2mm, enlarge bottom by=2mm]
+    \begin{itemize}
+        \renewcommand\labelitemi{--}
+        {% for comment in activity_ratio_commentary %}
+        \item  {{ comment|escape_latex }} % Bold 'Comment:' to distinguish each entry visually
+        {% endfor %}
+    \end{itemize}
+    \end{tcolorbox}
+
+
+\begin{figure}[H]
+    \centering
+    {% for name, url in valuation_ratio_graphs %}
+    \subfloat[{{ name|escape_latex }}]{\includegraphics[width=0.45\textwidth]{{ url|escape_latex }}}
+    {% endfor %}
+\end{figure}
+
+% \section*{Commentary on Valuation Ratios}
+
+% \begin{tcolorbox}[colback=white]
+% \subsection*{Comments}
+% \begin{itemize} 
+%     \renewcommand\labelitemi{--}
+%     {% for comment in valuation_ratio_commentary %}
+%     \item {{ comment|escape_latex }}
+%     {% endfor %}
+% \end{itemize}
+% \end{tcolorbox}
+
+\section*{Ownership Structure}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[Shareholding Data 2024]{\includegraphics[width=0.45\textwidth]{shareholding_2024.png}}
+    
+    \subfloat[Shareholding Data 2022]{\includegraphics[width=0.45\textwidth]{shareholding_2022.png}}
+\end{figure}
+
+\section*{Commentary on Ownership Structure}
+
+\begin{tcolorbox}[colback=white]    
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for comment in ownership_structure_commentary %}
+    \item {{ comment }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+
+% \begin{figure}[H]
+%     \centering
+%     {% for graph in activity_ratio_graphs %}
+%     \subfloat[{{ graph.name|escape_latex }}]{\includegraphics[width=0.45\textwidth]{{ '{' ~ graph.url ~ '}' }}}
+%     {% endfor %}
+% \end{figure}
+
+\section*{Subsidiary and JV Information:}
+
+\begin{longtable}{|p{3cm}|p{4cm}|p{3cm}|p{3cm}|p{2cm}|} % Change from 'm' to 'p' for natural width
+\hline
+\multirow{3}{*}{Subsidiaries} & \textbf{Name of the Subsidiary} & \textbf{Date of creation of interest} & \textbf{Nature of interest / \% of shareholding} & \textbf{Location} \\
+\cline{2-5}
+& NA & NA & Subsidiary (NA \%) & NA \\
+\cline{2-5}
+& NA & NA & Subsidiary (NA \%) & NA \\
+\hline
+\multirow{3}{*}{Joint Ventures} & \multicolumn{4}{|p{12cm}|}{\begin{itemize} % Adjusted to ensure proper alignment
+    \renewcommand\labelitemi{--}
+    \item Techno Electromech Private Limited (TEPL) was incorporated in Jan-2011 in Vadodara, Gujarat.
+    \item It is involved in the business of manufacturing LEDs and LED drivers and lighting and luminaires.
+    \item Polycab holds 50\% equity shares in TEPL.
+\end{itemize}} \\
+\hline % Added to close the bottom of the table
+\end{longtable}
+
+
+
+\section*{\underline{FINANCIALS OF THE COMPANY}}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+        \hline
+        \rowcolor{blue!20}
+        \textbf{All figures in INR Cr.} & {% for year in company_financials_dict.years %} {{ year }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Sales} & {% for value in company_financials_dict.sales %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Expenses} & {% for value in company_financials_dict.expenses %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Operating Profit} & {% for value in company_financials_dict.operating_profits %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Income} & {% for value in company_financials_dict.otherIncomes %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Interest Expenses} & {% for value in company_financials_dict.interestExpenses %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Depreciation Costs} & {% for value in company_financials_dict.depreciationCosts %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{PBT} & {% for value in company_financials_dict.profitsbeforetax %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Tax Rate} & {% for value in company_financials_dict.tax_rate_percentages %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Net Profit} & {% for value in company_financials_dict.netprofits %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Earnings Per Share} & {% for value in company_financials_dict.earningspershare %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Dividend Amount} & {% for value in company_financials_dict.dividendpayoutrates %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\textbf{Commentary on Company Financials}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for comment in company_financials_commentary %}
+    \item {{ comment }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+\section*{\underline{Financial Analysis}}
+
+\subsection*{Debt Schedule}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+        \hline
+        \rowcolor{blue!20}
+        \textbf{} & {% for year in debt_data_dict.years %} {{ year }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Total Borrowings} & {% for value in debt_data_dict.totalborrowings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Long-Term Borrowings} & {% for value in debt_data_dict.longterm_borrowings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Short-Term Borrowings} & {% for value in debt_data_dict.shorttermborrowings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Lease Liabilities} & {% for value in debt_data_dict.leaseliabilities %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Borrowings} & {% for value in debt_data_dict.otherborrowings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Total Liabilities} & {% for value in debt_data_dict.totalliabilities %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Non-Controlling Interest} & {% for value in debt_data_dict.noncontrollinginterest %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Trade Payables} & {% for value in debt_data_dict.tradepayables %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Advances from Customers} & {% for value in debt_data_dict.advances_fromcustomers %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Liability Items} & {% for value in debt_data_dict.otherliabilityitems %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+    \end{tabularx}
+\end{table}
+\textbf{Debt Schedule Commentary}
+% \section*{Debt Schedule Commentary}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for comment in debt_schedule_commentary %}
+    \item {{ comment|escape_latex }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+\subsection*{Working Capital Movement}
+
+\begin{figure}[H]
+    \centering
+    {% for name, url in working_capital_graphs %}
+    \subfloat[{{ name|escape_latex }}]{\includegraphics[width=0.45\textwidth]{{ url|escape_latex }}}
+    {% endfor %}
+\end{figure}
+
+\textbf{Commentary on Working Capital Movement}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for comment in working_capital_movement_commentary %}
+    \item {{ comment|escape_latex }}
+    {% endfor %}
+\end{itemize}   
+\end{tcolorbox}
+
+
+\subsection*{FIXED ASSETS OF THE COMPANY}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+        \hline
+        \rowcolor{blue!20}
+        \textbf{All figures in INR Cr.} & {% for year in fixed_assets_dict.years %} {{ year }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Land} & {% for value in fixed_assets_dict.land %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Building} & {% for value in fixed_assets_dict.building %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Plant \& Machinery} & {% for value in fixed_assets_dict.plant_machinery %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Equipment} & {% for value in fixed_assets_dict.equipment %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Furniture \& Fittings} & {% for value in fixed_assets_dict.furniture_fittings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Vehicles} & {% for value in fixed_assets_dict.vehicles %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Wind Turbines} & {% for value in fixed_assets_dict.wind_turbines %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Intangible Assets} & {% for value in fixed_assets_dict.intangible_assets %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Fixed Assets} & {% for value in fixed_assets_dict.other_fixed_assets %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Gross Block} & {% for value in fixed_assets_dict.gross_block %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Accumulated Depreciation} & {% for value in fixed_assets_dict.accumulated_depreciation %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Capital Work-in-Progress (CWIP)} & {% for value in fixed_assets_dict.cwip %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Investments} & {% for value in fixed_assets_dict.investments %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Inventories} & {% for value in fixed_assets_dict.inventories %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Trade Receivables} & {% for value in fixed_assets_dict.trade_receivables %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Cash \& Equivalents} & {% for value in fixed_assets_dict.cash_equivalents %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Short Term Loans} & {% for value in fixed_assets_dict.short_term_loans %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Other Asset Items} & {% for value in fixed_assets_dict.other_asset_items %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+        \textbf{Total Assets} & {% for value in fixed_assets_dict.total_assets %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\textbf{Commentary on FIXED ASSETS}
+
+\begin{tcolorbox}[colback=white]
+    \begin{itemize}
+        \renewcommand\labelitemi{--}
+        {% for comment in fixed_assets_commentary %}
+        \item {{ comment|escape_latex }}
+        {% endfor %}
+    \end{itemize}
+    \end{tcolorbox}
+    
+
+\subsection*{CASH FLOW ANALYSIS OF THE COMPANY}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{\textwidth}{|X|c|c|c|c|c|}
+            \hline
+            \rowcolor{blue!20}
+            \textbf{All figures in INR Cr.} & {% for year in cash_flow_analysis_dict.years %} {{ year }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Profit from Operations} & {% for value in cash_flow_analysis_dict.profit_from_operations %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Changes in Receivables} & {% for value in cash_flow_analysis_dict.changes_in_receivables %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Changes in Inventory} & {% for value in cash_flow_analysis_dict.changes_in_inventory %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Changes in Loans \& Advances} & {% for value in cash_flow_analysis_dict.changes_in_loans_advances %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Other Working Capital Items} & {% for value in cash_flow_analysis_dict.other_wc_items %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Direct Taxes} & {% for value in cash_flow_analysis_dict.direct_taxes %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Fixed Assets Purchased} & {% for value in cash_flow_analysis_dict.fixed_assets_purchased %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Fixed Assets Sold} & {% for value in cash_flow_analysis_dict.fixed_assets_sold %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Investments Purchased} & {% for value in cash_flow_analysis_dict.investments_purchased %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Investments Sold} & {% for value in cash_flow_analysis_dict.investments_sold %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Interest Received} & {% for value in cash_flow_analysis_dict.interest_received %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Invest in Subsidiaries} & {% for value in cash_flow_analysis_dict.invest_in_subsidies %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Investment in Group Companies} & {% for value in cash_flow_analysis_dict.investment_in_group_cos %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Other Investing Items} & {% for value in cash_flow_analysis_dict.other_investing_items %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Proceeds from Shares} & {% for value in cash_flow_analysis_dict.proceeds_from_shares %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Proceeds from Borrowings} & {% for value in cash_flow_analysis_dict.proceeds_from_borrowings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Repayment of Borrowings} & {% for value in cash_flow_analysis_dict.repayment_of_borrowings %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Interest Paid on Finances} & {% for value in cash_flow_analysis_dict.interest_paid_fin %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Dividends Paid} & {% for value in cash_flow_analysis_dict.dividends_paid %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Financial Liabilities} & {% for value in cash_flow_analysis_dict.financial_liabilities %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+            \textbf{Other Financing Items} & {% for value in cash_flow_analysis_dict.other_financing_items %} {{ value }} {% if not loop.last %} & {% endif %} {% endfor %} \\
+            \hline
+        \end{tabularx}
+    \end{table}
+    
+
+\textbf{Commentary on Cash Flow}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for comment in cash_flow_analysis_commentary %}
+    \item {{ comment }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+\section*{Justification of Proposal}
+
+\begin{tcolorbox}[colback=white]
+\begin{itemize}
+    \renewcommand\labelitemi{--}
+    {% for justification in justification_of_proposal %}
+    \item  {{ justification }}
+    {% endfor %}
+\end{itemize}
+\end{tcolorbox}
+
+\section*{Recommendations}
+
+\begin{tcolorbox}[colback=white]
+    \begin{itemize}
+        \renewcommand\labelitemi{--}
+        {% for recommendation in Recommendation %}
+        \item {{ recommendation }}
+        {% endfor %}
+    \end{itemize}
+    \end{tcolorbox}
+
+    \section*{\underline{Concalls}}
+    \begin{table}[H]
+        \centering
+        \begin{tabularx}{\textwidth}{|m{5cm}|>{\raggedright\arraybackslash}X|}
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Introduction}} \\
+            \hline
+            \textbf{Moderator Introduction} & {{ concalls.introduction.moderator_introduction|escape_latex }} \\
+            \hline
+            \textbf{Company Introduction} & {{ concalls.introduction.company_introduction|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Executive Summary}} \\
+            \hline
+            \textbf{Chairman's Remarks} & {{ concalls.executive_summary.chairman_remarks|escape_latex }} \\
+            \hline
+            \textbf{CFO's Remarks} & {{ concalls.executive_summary.cfo_remarks|escape_latex }} \\
+            \hline
+            \textbf{Key Achievements} & {{ concalls.executive_summary.key_achievements|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Financial Performance}} \\
+            \hline
+            \textbf{Revenue and Profit} & {{ concalls.financial_performance.revenue_and_profit|escape_latex }} \\
+            \hline
+            \textbf{Segment-wise Performance} & {{ concalls.financial_performance.segment_wise_performance|escape_latex }} \\
+            \hline
+            \textbf{Cost Analysis} & {{ concalls.financial_performance.cost_analysis|escape_latex }} \\
+            \hline
+            \textbf{Financial Guidance} & {{ concalls.financial_performance.financial_guidance|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Market and Economic Overview}} \\
+            \hline
+            \textbf{Macro Economic Environment} & {{ concalls.market_and_economic_overview.macro_economic_environment|escape_latex }} \\
+            \hline
+            \textbf{Industry Trends} & {{ concalls.market_and_economic_overview.industry_trends|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Strategic Initiatives and Projects}} \\
+            \hline
+            \textbf{Major Projects} & {{ concalls.strategic_initiatives_and_projects.major_projects|escape_latex }} \\
+            \hline
+            \textbf{New Products and Innovations} & {{ concalls.strategic_initiatives_and_projects.new_products_and_innovations|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Operational Highlights}} \\
+            \hline
+            \textbf{Capacity Utilization} & {{ concalls.operational_highlights.capacity_utilization|escape_latex }} \\
+            \hline
+            \textbf{Efficiency Improvements} & {{ concalls.operational_highlights.efficiency_improvements|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Corporate Governance}} \\
+            \hline
+            \textbf{Board Activities} & {{ concalls.corporate_governance.board_activities|escape_latex }} \\
+            \hline
+            \textbf{Debt Management} & {{ concalls.corporate_governance.debt_management|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Financial Guidance and Outlook}} \\
+            \hline
+            \textbf{Future Projections} & {{ concalls.financial_guidance_and_outlook.future_projections|escape_latex }} \\
+            \hline
+            \textbf{Market Outlook} & {{ concalls.financial_guidance_and_outlook.market_outlook|escape_latex }} \\
+            \hline
+            \textbf{Strategic Goals} & {{ concalls.financial_guidance_and_outlook.strategic_goals|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Questions and Answers}} \\
+            \hline
+            \textbf{Investor Queries} & {{ concalls.questions_and_answers.investor_queries|escape_latex }} \\
+            \hline
+            \textbf{Management Responses} & {{ concalls.questions_and_answers.management_responses|escape_latex }} \\
+            \hline
+            \multicolumn{2}{|c|}{\textbf{Closing Remarks}} \\
+            \hline
+            \textbf{Summary by Executives} & {{ concalls.closing_remarks.summary_by_executives|escape_latex }} \\
+            \hline
+            \textbf{Next Steps} & {{ concalls.closing_remarks.next_steps|escape_latex }} \\
+            \hline
+        \end{tabularx}
+    \end{table}
+        
+\section*{\underline{Recent News}}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|m{5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Headline and Source}} \\
+        \hline
+        \textbf{News Title} & {{ recent_news.headline_and_source.news_title|escape_latex }} \\
+        \hline
+        \textbf{Source} & {{ recent_news.headline_and_source.source|escape_latex }} \\
+        \hline
+        \textbf{Date} & {{ recent_news.headline_and_source.date|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Executive Summary}} \\
+        \hline
+        \textbf{Summary of the News} & {{ recent_news.executive_summary.summary_of_the_news|escape_latex }} \\
+        \hline
+        \textbf{Impact on Company} & {{ recent_news.executive_summary.impact_on_company|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Company Specific News}} \\
+        \hline
+        \textbf{Financial Results} & {{ recent_news.company_specific_news.financial_results|escape_latex }} \\
+        \hline
+        \textbf{New Projects and Ventures} & {{ recent_news.company_specific_news.new_projects_and_ventures|escape_latex }} \\
+        \hline
+        \textbf{Product Launches and Innovations} & {{ recent_news.company_specific_news.product_launches_and_innovations|escape_latex }} \\
+        \hline
+        \textbf{Strategic Initiatives} & {{ recent_news.company_specific_news.strategic_initiatives|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Market and Economic Impact}} \\
+        \hline
+        \textbf{Industry Impact} & {{ recent_news.market_and_economic_impact.industry_impact|escape_latex }} \\
+        \hline
+        \textbf{Economic Conditions} & {{ recent_news.market_and_economic_impact.economic_conditions|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Stock Market and Investor Reactions}} \\
+        \hline
+        \textbf{Stock Performance} & {{ recent_news.stock_market_and_investor_reactions.stock_performance|escape_latex }} \\
+        \hline
+        \textbf{Investor Sentiment} & {{ recent_news.stock_market_and_investor_reactions.investor_sentiment|escape_latex }} \\
+        \hline
+        \textbf{Market Comparisons} & {{ recent_news.stock_market_and_investor_reactions.market_comparisons|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Management and Leadership}} \\
+        \hline
+        \textbf{Executive Statements} & {{ recent_news.management_and_leadership.executive_statements|escape_latex }} \\
+        \hline
+        \textbf{Leadership Changes} & {{ recent_news.management_and_leadership.leadership_changes|default('N/A', true)|escape_latex }} \\
+        \hline
+        \textbf{Board Decisions} & {{ recent_news.management_and_leadership.board_decisions|default('N/A', true)|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Regulatory and Compliance}} \\
+        \hline
+        \textbf{Legal Matters} & {{ recent_news.regulatory_and_compliance.legal_matters|default('N/A', true)|escape_latex }} \\
+        \hline
+        \textbf{Government Policies} & {{ recent_news.regulatory_and_compliance.government_policies|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Operational Developments}} \\
+        \hline
+        \textbf{Operational Updates} & {{ recent_news.operational_developments.operational_updates|escape_latex }} \\
+        \hline
+        \textbf{Supply Chain Issues} & {{ recent_news.operational_developments.supply_chain_issues|escape_latex }} \\
+        \hline
+        \textbf{Infrastructure Developments} & {{ recent_news.operational_developments.infrastructure_developments|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Market and Consumer Trends}} \\
+        \hline
+        \textbf{Consumer Behavior} & {{ recent_news.market_and_consumer_trends.consumer_behavior|escape_latex }} \\
+        \hline
+        \textbf{Market Demand} & {{ recent_news.market_and_consumer_trends.market_demand|escape_latex }} \\
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Future Outlook and Projections}} \\
+        \hline
+        \textbf{Analyst Projections} & {{ recent_news.future_outlook_and_projections.analyst_projections|escape_latex }} \\
+        \hline
+        \textbf{Company Guidance} & {{ recent_news.future_outlook_and_projections.company_guidance|escape_latex }} \\
+        \hline
+        \textbf{Strategic Goals} & {{ recent_news.future_outlook_and_projections.strategic_goals|escape_latex }} \\
+        \hline
+    \end{tabularx}
+\end{table}
+\end{document}
